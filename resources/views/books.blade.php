@@ -138,10 +138,11 @@
     <script>
         $(document).ready(function () { 
 
+            // Modificamos y mostramos la modal de la portada
             function updateModal(img) {
                 document.querySelectorAll(".open-modal").forEach(img => {
                     img.addEventListener("click", function() {
-                        const title = this.getAttribute("data-title");
+                        const title = this.getAttribute("data-title").toUpperCase();
                         const image = this.getAttribute("data-image");
 
                         document.getElementById("modalTitle").textContent = title;
