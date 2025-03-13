@@ -143,9 +143,11 @@
                 document.querySelectorAll(".open-modal").forEach(img => {
                     img.addEventListener("click", function() {
                         const title = this.getAttribute("data-title").toUpperCase();
+                        const rating = parseInt(this.getAttribute("data-rating"));
+                        const estrellas = '⭐'.repeat(rating); // '\u2B50'
                         const image = this.getAttribute("data-image");
 
-                        document.getElementById("modalTitle").textContent = title;
+                        document.getElementById("modalTitle").textContent = title + " " + estrellas;
                         document.getElementById("modalImage").src = image;
                     });
                 });

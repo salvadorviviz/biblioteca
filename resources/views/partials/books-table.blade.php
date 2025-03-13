@@ -31,7 +31,7 @@
                     <img src="{{ asset('storage/' . $book->cover) }}" alt="Portada" width="50"
                          class="img-thumbnail open-modal" data-bs-toggle="modal"
                          data-bs-target="#imageModal" data-title="{{ $book->title }}" 
-                         data-image="{{ asset('storage/' . $book->cover) }}">
+                         data-image="{{ asset('storage/' . $book->cover) }}" data-rating="{{ $book->rating }}">
                 @else
                     No disponible
                 @endif
