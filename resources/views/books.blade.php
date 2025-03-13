@@ -169,6 +169,47 @@
                 });
             });
 
+            // Cantidad por página (ajax)
+            $(document).on('change', '#perPage', function() {
+                const perPage = $(this).val();
+                const filters = $('#filter-form').serialize();
+
+                $.ajax({
+                    url: '/books/tabla',
+                    method: 'POST',
+                    data: filters + '&perPage=' + perPage + '&_token={{ csrf_token() }}',
+                    success: function(response) {
+                        $('#books-table').html(response);
+                        updateModal();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+            // Paginación de Laravel por Ajax
+            $(document).on('click', '#books-table .pagination a', function(e){
+                e.preventDefault();
+
+                const page = $(this).attr('href').split('page=')[1];
+                const perPage = $('#perPage').val();
+                const filters = $('#filter-form').serialize();
+
+                $.ajax({
+                    url: '/books/tabla?page=' + page,
+                    method: 'POST',
+                    data: filters + '&perPage=' + perPage,
+                    success: function(response){
+                        $('#books-table').html(response);
+                        updateModal();
+                    },
+                    error: function(xhr, status, error){
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
             $('#genre').on('change', function () {
                 let selectedValue = $(this).val();
     
