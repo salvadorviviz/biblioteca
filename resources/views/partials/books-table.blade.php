@@ -31,7 +31,7 @@
                     <img src="{{ asset('storage/' . $book->cover) }}" alt="Portada" width="50"
                          class="img-thumbnail open-modal" data-bs-toggle="modal"
                          data-bs-target="#imageModal" data-title="{{ $book->title }}" 
-                         data-image="{{ asset('storage/' . $book->cover) }}">
+                         data-image="{{ asset('storage/' . $book->cover) }}" data-rating="{{ $book->rating }}">
                 @else
                     No disponible
                 @endif
@@ -78,8 +78,8 @@
 <!-- Bottom de la tabla -->
 <div class="row align-items-center mt-3 text-muted text-center">
     <div class="col-md-4 d-flex justify-content-center align-items-center gap-2 space-bottom-table">
-        <form method="GET" action="{{ route('books.index') }}" class="d-flex align-items-center gap-2 form-delete">
-            <select name="perPage" id="perPage" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+        <form id="perPageForm" class="d-flex align-items-center gap-2 form-delete">
+            <select name="perPage" id="perPage" class="form-select form-select-sm w-auto">
                 <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
                 <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
                 <option value="30" {{ request('perPage') == 30 ? 'selected' : '' }}>30</option>

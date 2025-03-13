@@ -46,7 +46,7 @@ class BookController extends Controller
 
         // Paginación
         $perPage = $request->input('perPage', 10); // Por defecto, 10 resultados
-        $books = $query->paginate($perPage)->appends($request->query());
+        $books = $query->paginate($perPage)->appends($request->except('_token'));
 
         // Si es una petición AJAX, devolver solo la tabla
         if ($request->ajax()) {

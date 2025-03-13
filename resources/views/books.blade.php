@@ -143,9 +143,11 @@
                 document.querySelectorAll(".open-modal").forEach(img => {
                     img.addEventListener("click", function() {
                         const title = this.getAttribute("data-title").toUpperCase();
+                        const rating = parseInt(this.getAttribute("data-rating"));
+                        const estrellas = '⭐'.repeat(rating); // '\u2B50'
                         const image = this.getAttribute("data-image");
 
-                        document.getElementById("modalTitle").textContent = title;
+                        document.getElementById("modalTitle").textContent = title + " " + estrellas;
                         document.getElementById("modalImage").src = image;
                     });
                 });
@@ -164,6 +166,47 @@
                         updateModal(this);
                     },
                     error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+            // Cantidad por página (ajax)
+            $(document).on('change', '#perPage', function() {
+                const perPage = $(this).val();
+                const filters = $('#filter-form').serialize();
+
+                $.ajax({
+                    url: '/books/tabla',
+                    method: 'POST',
+                    data: filters + '&perPage=' + perPage + '&_token={{ csrf_token() }}',
+                    success: function(response) {
+                        $('#books-table').html(response);
+                        updateModal();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+            // Paginación de Laravel por Ajax
+            $(document).on('click', '#books-table .pagination a', function(e){
+                e.preventDefault();
+
+                const page = $(this).attr('href').split('page=')[1];
+                const perPage = $('#perPage').val();
+                const filters = $('#filter-form').serialize();
+
+                $.ajax({
+                    url: '/books/tabla?page=' + page,
+                    method: 'POST',
+                    data: filters + '&perPage=' + perPage,
+                    success: function(response){
+                        $('#books-table').html(response);
+                        updateModal();
+                    },
+                    error: function(xhr, status, error){
                         console.log('Error:', error);
                     }
                 });
