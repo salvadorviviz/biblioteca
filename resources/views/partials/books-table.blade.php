@@ -46,18 +46,28 @@
                     </span>
                 @endif
             </td>                                    
-            <td>
-                <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
-                    <i class="bi bi-pencil-fill"></i>
-                </a>
-                <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="d-inline form-delete">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-outline-danger btn-sm"  data-bs-toggle="tooltip" data-bs-placement="top" title="Borrar">
-                        <i class="bi bi-x-lg"></i>
+            <td class="td-delete">
+                <!-- Reseña -->
+                <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="return redirectToReview(event, '{{ $book->title }}')" class="form-delete">
+                    <button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Reseña">
+                        🔍
                     </button>
                 </form>
-            </td>
+                <!-- Editar -->
+                <form action="{{ route('books.edit', $book->id) }}" method="get" onsubmit="return handleEdit(event)" class="form-delete">
+                    <button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                        ✏️
+                    </button>
+                </form>
+                <!-- Borrar -->
+                <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="d-inline form-delete" onsubmit="return handleDelete(event)">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Borrar">
+                        ❌
+                    </button>
+                </form>
+            </td>        
         </tr>
         @endforeach
     </tbody>           
@@ -74,7 +84,25 @@
             </div>
         </div>
     </div>
-</div>      
+</div>  
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteConfirmModalLabel">Confirmar eliminación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que quieres borrar este libro?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Borrar</button>
+        </div>
+      </div>
+    </div>
+</div>  
 <!-- Bottom de la tabla -->
 <div class="row align-items-center mt-3 text-muted text-center">
     <div class="col-md-4 d-flex justify-content-center align-items-center gap-2 space-bottom-table">

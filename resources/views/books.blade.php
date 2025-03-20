@@ -261,5 +261,33 @@
                 new bootstrap.Toast(toastValidation, { delay: 7000 }).show(); // Se oculta en 7 segundos
             }
         });
+
+        // Redirige a la búsqueda en Google para la reseña del libro
+        function redirectToReview(event, title) {
+            event.preventDefault();
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(title)}+reseña`;
+            window.open(searchUrl, '_blank');
+            return false;
+        }
+
+        // Función de confirmación o redirección para editar (puedes agregar lógica aquí si es necesario)
+        function handleEdit(event) {
+            event.preventDefault(); // Evitar el comportamiento por defecto del submit
+            window.location.href = event.target.action; // Redirige a la URL de edición
+        }
+
+        function handleDelete(event) {
+            event.preventDefault(); // Evitar el comportamiento por defecto del submit
+            
+            // Mostrar el modal de confirmación
+            var modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+            modal.show();
+            
+            // Esperar a que el usuario confirme
+            document.getElementById('confirmDeleteBtn').onclick = function() {
+                // Si el usuario confirma, enviar el formulario
+                event.target.submit();
+            };
+        }
     </script>            
 @endsection
