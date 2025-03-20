@@ -126,8 +126,14 @@ class BookController extends Controller
     // Eliminar un libro por ID
     public function destroy($id)
     {
-        Book::findOrFail($id)->delete();
-        return response()->json(['message' => 'Libro eliminado']);
+        /*Book::findOrFail($id)->delete();
+        return response()->json(['message' => 'Libro eliminado']);*/
+        try {
+            Book::findOrFail($id)->delete();
+            return redirect()->route('books.index')->with('success', 'Libro borrado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Hubo un problema al borrar el libro.');
+        }
     }
 
     public function edit($id)
