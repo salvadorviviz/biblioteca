@@ -3,7 +3,6 @@
 /storage
 /public/storage
 /bootstrap/cache
-/.env
 /.env.example
 /database/*.sqlite
 /.idea
